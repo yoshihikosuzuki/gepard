@@ -303,7 +303,7 @@ public class CommandLine {
 		if(seq2.isMulti()){
 			seq2Starts = seq2.getMultiStarts();
 		}
-		DotMatrix dm = new DotMatrix(seq1.getSequenceData(), seq2.getSequenceData(), seq1.getName(), seq1Starts, seq2.getName(), seq2Starts, sa, params, submat, catcher, catcher,
+		DotMatrix dm = new DotMatrix(seq1.getSequenceData(), seq2.getSequenceData(), seq1.getName(), seq1Starts, seq1.getNPos(), seq2.getName(), seq2Starts, seq2.getNPos(), sa, params, submat, catcher, catcher,
 				saSecondSeq);
 
 		if (!silent)

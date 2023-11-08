@@ -27,6 +27,8 @@ public class DotMatrix implements Serializable {
 	
 	private int[] seq1Starts, seq2Starts;
 
+	private int[] seq1NPos, seq2NPos;
+
 	private SuffixArray sa;
 
 	private SubstitutionMatrix submat;
@@ -76,6 +78,13 @@ public class DotMatrix implements Serializable {
 		return seq2Starts;
 	}
 
+	public int[] getSeq1NPos(){
+		return seq1NPos;
+	}
+	public int[] getSeq2NPos(){
+		return seq2NPos;
+	}
+
 	// public float[][]getNoiseMatrix(){return noisematrix;}
 
 	public ParameterSet getParameterSet() {
@@ -113,7 +122,7 @@ public class DotMatrix implements Serializable {
 		return avgdotscore;
 	}
 
-	public DotMatrix(byte[] s1, byte[] s2, String seq1n, int[] seq1s, String seq2n, int[] seq2s,
+	public DotMatrix(byte[] s1, byte[] s2, String seq1n, int[] seq1s, int[] seq1ns, String seq2n, int[] seq2s, int[] seq2ns,
 			SuffixArray sa, ParameterSet params, SubstitutionMatrix submat, 
 			DotMatrixCallback callback, AbortionChecker ac, boolean SAforSecondSeq ) {
 
@@ -138,6 +147,24 @@ public class DotMatrix implements Serializable {
 				seq2Starts[i] = 0;
 			}
 		}			
+		seq1NPos = new int[seq1ns.length];
+		for(int i = 0; i < seq1ns.length; i++){
+			if(seq1ns[i] > params.seq1Start && seq1ns[i] < params.seq1Stop){
+				seq1NPos[i] = (seq1ns[i] - params.seq1Start) / params.zoom;
+			}
+			else{
+				seq1NPos[i] = 0;
+			}
+		}
+		seq2NPos = new int[seq2ns.length];
+		for(int i = 0; i < seq2ns.length; i++){
+			if(seq2ns[i] > params.seq2Start && seq2ns[i] < params.seq2Stop){
+				seq2NPos[i] = (seq2ns[i] - params.seq2Start) / params.zoom;
+			}
+			else{
+				seq2NPos[i] = 0;
+			}
+		}	
 	}
 
 	// additional parameters method

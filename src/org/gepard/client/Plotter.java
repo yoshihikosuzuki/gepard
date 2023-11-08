@@ -308,6 +308,24 @@ public class Plotter {
 			g.drawImage(offscreen, XOFF, YOFF, XOFF + offscreen.getWidth(), YOFF + offscreen.getHeight(), 0, offscreen.getHeight(), offscreen.getWidth(), 0, null);
 		}
 
+		// draw N start line
+		g.setColor(Color.BLUE);
+		for(int start : dm.getSeq1NPos()){
+			if(start > 0){
+				g.drawLine(start + XOFF, YOFF, start + XOFF, YOFF + dm.getHeight());
+			}
+		}
+		for(int start : dm.getSeq2NPos()){
+			if(start > 0){
+				if(cp == null || !cp.reversePlot()){
+					g.drawLine(XOFF, start + YOFF, XOFF + dm.getWidth(), start + YOFF);
+				}
+				else{
+					g.drawLine(XOFF, offscreen.getHeight() - start - 1 + YOFF, XOFF + dm.getWidth(), offscreen.getHeight() - start - 1 + YOFF);					
+				}
+			}
+		}
+
 		// draw sequence start line
 		g.setColor(Color.RED);
 		for(int start : dm.getSeq1Starts()){
@@ -325,6 +343,7 @@ public class Plotter {
 				}
 			}
 		}
+
 			
 		// draw selection
 		if (selX1 != -1) {

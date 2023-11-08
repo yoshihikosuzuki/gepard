@@ -102,6 +102,7 @@ public class FASTAReader {
 		// prepare multi-fasta
 		List<String> allNames = new ArrayList<String>();
 		List<Integer> allStarts = new ArrayList<Integer>();
+		List<Integer> allNPos = new ArrayList<Integer>();
 		// add first one
 		if(name.contains(" ")){
 			allNames.add(name.substring(0, name.indexOf(" ")));
@@ -134,6 +135,9 @@ public class FASTAReader {
 
 			// add to sequence or output error
 			byte mapval = substmat.map(contents[j]);
+            // store N position
+			if (isnucleotide && mapval == 5)
+                allNPos.add(k);
 			// map U to T
 			if (isnucleotide && mapval == 16)
 				mapval = 2;
@@ -151,10 +155,10 @@ public class FASTAReader {
 		Sequence seq = null;
 		if (allNames.size()>1) {
 			name = "Multi FASTA (" + ClientGlobals.extractFilename(file) + ")";
-			seq = new Sequence(sequence, name, isnucleotide, invalidchars);
+			seq = new Sequence(sequence, name, isnucleotide, invalidchars, allNPos);
 			seq.setMulti(allNames, allStarts);
 		} else
-			seq = new Sequence(sequence, name, isnucleotide, invalidchars);
+			seq = new Sequence(sequence, name, isnucleotide, invalidchars, allNPos);
 		
 		return seq; 
 	}
@@ -184,7 +188,7 @@ public class FASTAReader {
 		ret['X'] = true;
 		return ret;
 	}
-	
+
 	public static boolean isNucleotideFile(String file) throws IOException, InvalidFASTAFileException {
 		
 		// get lowercase->uppercase mapper && ACGT checker

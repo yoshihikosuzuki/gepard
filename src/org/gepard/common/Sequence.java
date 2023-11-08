@@ -11,16 +11,21 @@ public class Sequence {
 	private boolean likelynucleotides;
 	private boolean invalidchars;
 	private boolean complementary=false;
+    private int[] nPos;
 	
 	private boolean isMulti;
 	private String[] multiNames;
 	private int[] multiStarts;
 	
-	public Sequence(byte[] sequence, String name, boolean likelynucleotides, boolean invalidchars) {
+	public Sequence(byte[] sequence, String name, boolean likelynucleotides, boolean invalidchars, List<Integer> npos) {
 		this.name = name;
 		this.sequenceData = sequence;
 		this.likelynucleotides = likelynucleotides;
 		this.invalidchars = invalidchars;
+		nPos = new int[npos.size()];
+		int i=0;
+		for (int v : npos)
+			nPos[i++]=v;
 	}
 	
 	// accessor methods
@@ -117,5 +122,9 @@ public class Sequence {
 
 	public int[] getMultiStarts() {
 		return multiStarts;
+	}
+
+	public int[] getNPos() {
+		return nPos;
 	}
 }

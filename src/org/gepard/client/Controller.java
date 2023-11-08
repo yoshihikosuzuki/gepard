@@ -595,7 +595,7 @@ public class Controller implements AbortionChecker {
 		if(sequence2.isMulti()){
 			seq2Starts = sequence2.getMultiStarts();
 		}
-		DotMatrix dm = new DotMatrix(sequence1.getSequenceData(), sequence2.getSequenceData(), sequence1.getName(), seq1Starts, sequence2.getName(), seq2Starts, sa, params, submat,
+		DotMatrix dm = new DotMatrix(sequence1.getSequenceData(), sequence2.getSequenceData(), sequence1.getName(), seq1Starts, sequence1.getNPos(), sequence2.getName(), seq2Starts, sequence2.getNPos(), sa, params, submat,
 				stat, this, SAforSecondSeq);
 
 		// check if user aborted!
