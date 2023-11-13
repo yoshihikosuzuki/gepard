@@ -23,7 +23,7 @@ import org.gepard.common.SuffixArray;
 public class CommandLine {
 
 	private static final String[] ALLOWED_ARGS = new String[] { "seq1", "seq2", "maxwidth", "maxheight", "matrix", "silent", "word", "window", "from1", "to1",
-			"from2", "to2", "lower", "upper", "greyscale", "outfile", "format", "safile", "sasecondseq", "secondcomp", "zoom" };
+			"from2", "to2", "lower", "upper", "greyscale", "onlyplot", "outfile", "format", "safile", "sasecondseq", "secondcomp", "zoom" };
 
 	private static final int DEF_WIDTH = 750;
 	private static final int DEF_HEIGHT = 750;
@@ -61,6 +61,9 @@ public class CommandLine {
 
 		// silent mode?
 		boolean silent = arguments.isSet("silent");
+
+        // only-plot mode?
+		boolean only_plot = arguments.isSet("onlyplot");
 
 		// output format
 		String format = null;
@@ -454,6 +457,7 @@ public class CommandLine {
 		System.err.println("  -lower        lower limit for dot intensity (in %)");
 		System.err.println("  -upper        upper limit for dot intensity (in %)");
 		System.err.println("  -greyscale    greyscale start value (in %)");
+		System.err.println("  -onlyplot     display only the dotplot without any texts");
 		System.err.println();
 		System.err.println("Miscellaneous:");
 		System.err.println("  -silent       generate no output (except error messages)");
