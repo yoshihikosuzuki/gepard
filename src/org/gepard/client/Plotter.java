@@ -29,9 +29,12 @@ public class Plotter {
 	// public static final int XOFF = 85;
 	// public static final int YOFF = 110;
 	// private static final int GC_RATIO_OFF = 160;
-	public static final int XOFF = 0;
-	public static final int YOFF = 0;
-	private static final int GC_RATIO_OFF = 0;
+	public static int XOFF = 85;
+	public static int YOFF = 110;
+	private static int GC_RATIO_OFF = 160;
+	// public static final int XOFF = 0;
+	// public static final int YOFF = 0;
+	// private static final int GC_RATIO_OFF = 0;
 	private static final Font INFO_FONT = new Font("Monospaced", Font.PLAIN, 12);
 	private static final Font GENE_FONT = new Font("Monospaced", Font.PLAIN, 11);
 
@@ -77,6 +80,12 @@ public class Plotter {
 	public Plotter(DotMatrix dm, DrawTarget dp) {	
 		this.dm = dm;
 		this.dp = dp;
+
+        if (dm.getParameterSet().onlyPlot) {
+            Plotter.XOFF = 0;
+            Plotter.YOFF = 0;
+            Plotter.GC_RATIO_OFF = 0;
+        }
 		
 		// create backbuffer
 		offscreen = new BufferedImage(dm.getWidth(), dm.getHeight(), BufferedImage.TYPE_INT_RGB);
@@ -112,10 +121,13 @@ public class Plotter {
 		minPlotWidth = Math.max(infoGCRatioWidth, infoProgramWidth);
 
 		// calc image dimensions
-		// imgWidth = (minPlotWidth > XOFF + dm.getWidth()) ? minPlotWidth + 5 : XOFF + dm.getWidth() + 5;
-		// imgHeight = YOFF + dm.getHeight() + 5;
-		imgWidth = XOFF + dm.getWidth();
-		imgHeight = YOFF + dm.getHeight();
+        if (!dm.getParameterSet().onlyPlot) {
+            imgWidth = (minPlotWidth > XOFF + dm.getWidth()) ? minPlotWidth + 5 : XOFF + dm.getWidth() + 5;
+            imgHeight = YOFF + dm.getHeight() + 5;
+        } else {
+            imgWidth = XOFF + dm.getWidth();
+            imgHeight = YOFF + dm.getHeight();
+        }
 
 		// now we need to create the plot title with corretly cut strings
 		String name1 = dm.getSeq1Name();
@@ -145,7 +157,6 @@ public class Plotter {
 			else
 				// name2 is the short one
 				infoPlotTitle = ClientGlobals.cutString(name1, charsfortitle - name2.length()) + " vs. " + name2;
-
 		}
 
 		dp.setPreferredSize(new Dimension(imgWidth, imgHeight));
@@ -268,26 +279,28 @@ public class Plotter {
 
 		FontMetrics fontMetrics = g.getFontMetrics(g.getFont());
 
-		// draw first sequence name
-		// g.drawString(seq1Name, XOFF + (dm.getWidth() / 2) - (fontMetrics.stringWidth(seq1Name) / 2), YOFF - 7);
-		// draw second sequence name, rotated
-		// Font oldFont = g.getFont();
-		// Font rotated = getRotatedFont(oldFont);
-		// g.setFont(rotated);
-		// g.drawString(seq2Name, XOFF - 7, YOFF + (dm.getHeight() / 2) + (fontMetrics.stringWidth(seq2Name) / 2));
-		// g.setFont(oldFont);
+        if (!dm.getParameterSet().onlyPlot) {
+            // draw first sequence name
+            g.drawString(seq1Name, XOFF + (dm.getWidth() / 2) - (fontMetrics.stringWidth(seq1Name) / 2), YOFF - 7);
+            // draw second sequence name, rotated
+            Font oldFont = g.getFont();
+            Font rotated = getRotatedFont(oldFont);
+            g.setFont(rotated);
+            g.drawString(seq2Name, XOFF - 7, YOFF + (dm.getHeight() / 2) + (fontMetrics.stringWidth(seq2Name) / 2));
+            g.setFont(oldFont);
 
-		// g.drawString(infoPlotTitle, XOFF, 13);
-		// g.drawString(infoZoom, XOFF, 28);
-		// g.drawString(infoWordLen, XOFF, 43);
-		// g.drawString(infoWindowSize, XOFF, 58);
-		// g.drawString(infoSubmat, XOFF, 73);
-		// draw GC ratio (if nucleotide dotplot)
-		// if (this.dm.isNucleotideMatrix()) {
-		// 	g.drawString(infoGCRatio1, XOFF + GC_RATIO_OFF, 43);
-		// 	g.drawString(infoGCRatio2, XOFF + GC_RATIO_OFF, 58);
-		// }
-		// g.drawString(infoProgram, XOFF + GC_RATIO_OFF, 73);
+            g.drawString(infoPlotTitle, XOFF, 13);
+            g.drawString(infoZoom, XOFF, 28);
+            g.drawString(infoWordLen, XOFF, 43);
+            g.drawString(infoWindowSize, XOFF, 58);
+            g.drawString(infoSubmat, XOFF, 73);
+            // draw GC ratio (if nucleotide dotplot)
+            if (this.dm.isNucleotideMatrix()) {
+            	g.drawString(infoGCRatio1, XOFF + GC_RATIO_OFF, 43);
+            	g.drawString(infoGCRatio2, XOFF + GC_RATIO_OFF, 58);
+            }
+            g.drawString(infoProgram, XOFF + GC_RATIO_OFF, 73);
+        }
 
 		// draw start/end coordinates + lines
 

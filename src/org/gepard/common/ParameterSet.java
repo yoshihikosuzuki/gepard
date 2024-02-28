@@ -8,6 +8,7 @@ public class ParameterSet implements Serializable {
 
 	private static final long serialVersionUID = 2991408205215417902L;
 
+    public boolean onlyPlot;
 	public int zoom;
 	public int wordLength;
 	public int windowSize;
@@ -18,9 +19,9 @@ public class ParameterSet implements Serializable {
 	
 	private static final String paramDivider = "&";
 
-	public ParameterSet(int iratio, int iwordlen, int iwinsize, int iseq1start,
+	public ParameterSet(boolean onlyPlot, int iratio, int iwordlen, int iwinsize, int iseq1start,
 			int iseq1stop, int iseq2start, int iseq2stop, String submatName) {
-		
+		this.onlyPlot = onlyPlot;
 		this.zoom = iratio;
 		this.wordLength = iwordlen;
 		this.windowSize = iwinsize;
@@ -37,7 +38,7 @@ public class ParameterSet implements Serializable {
 	}
 
 	public ParameterSet getClone() {
-		return new ParameterSet(zoom, wordLength, windowSize, seq1Start,
+		return new ParameterSet(onlyPlot, zoom, wordLength, windowSize, seq1Start,
 				seq1Stop, seq2Start, seq2Stop, submatName);
 	}
 	
