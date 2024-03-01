@@ -82,8 +82,8 @@ public class Plotter {
 		this.dp = dp;
 
         if (dm.getParameterSet().onlyPlot) {
-            Plotter.XOFF = 0;
-            Plotter.YOFF = 0;
+            Plotter.XOFF = 1;
+            Plotter.YOFF = 1;
             Plotter.GC_RATIO_OFF = 0;
         }
 		
@@ -125,8 +125,8 @@ public class Plotter {
             imgWidth = (minPlotWidth > XOFF + dm.getWidth()) ? minPlotWidth + 5 : XOFF + dm.getWidth() + 5;
             imgHeight = YOFF + dm.getHeight() + 5;
         } else {
-            imgWidth = XOFF + dm.getWidth();
-            imgHeight = YOFF + dm.getHeight();
+            imgWidth = XOFF + dm.getWidth() + 1;
+            imgHeight = YOFF + dm.getHeight() + 1;
         }
 
 		// now we need to create the plot title with corretly cut strings
